@@ -1,15 +1,45 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { PlusCircle, QrCode, LayoutDashboard } from 'lucide-react';
+import { PlusCircle, QrCode, LayoutDashboard, ShieldAlert } from 'lucide-react';
 
 export default function Admin() {
-  const { events, addEvent, markAttendance } = useContext(AppContext);
+  const { events, addEvent, markAttendance, user } = useContext(AppContext);
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     title: '', date: '', location: '', category: 'Workshop', limit: 100
   });
   
   const [scanId, setScanId] = useState('');
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login?redirect=/admin');
+    }
+  }, [user, navigate]);
+
+  if (!user) {
+    return null; // Will redirect in useEffect
+  }
+
+  if (user.role !== 'admin') {
+    return (
+      <div className="denied-container">
+        <div className="denied-card card">
+          <ShieldAlert size={64} className="denied-icon" />
+          <h2>Access Denied</h2>
+          <p>You need administrator privileges to view this dashboard.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+            Logged in as: {user.name} ({user.email || 'Web3 Wallet'})
+          </p>
+          <button className="primary-btn" onClick={() => navigate('/login?redirect=/admin')}>
+            Sign In as Admin
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleCreateEvent = (e) => {
     e.preventDefault();

@@ -1,10 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { QRCodeSVG } from 'qrcode.react';
-import { Ticket, Award } from 'lucide-react';
+import { Ticket, Award, ShieldAlert } from 'lucide-react';
 
 export default function MyTickets() {
-  const { userTickets } = useContext(AppContext);
+  const { userTickets, user } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login?redirect=/tickets');
+    }
+  }, [user, navigate]);
+
+  if (!user) {
+    return null; // Redirecting in useEffect
+  }
 
   return (
     <div className="page tickets-page">

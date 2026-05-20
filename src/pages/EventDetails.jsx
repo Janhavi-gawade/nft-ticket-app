@@ -9,7 +9,7 @@ export default function EventDetails() {
   const eventId = parseInt(searchParams.get('id'));
   const navigate = useNavigate();
   
-  const { events, mintTicket, walletSigner } = useContext(AppContext);
+  const { events, mintTicket, walletSigner, user } = useContext(AppContext);
   const event = events.find(e => e.id === eventId);
   
   const [isMinting, setIsMinting] = useState(false);
@@ -18,8 +18,14 @@ export default function EventDetails() {
 
   const handleGaslessMint = async () => {
     try {
+      if (!user) {
+        alert("Please sign in to mint tickets!");
+        navigate(`/login?redirect=/event?id=${event.id}`);
+        return;
+      }
+
       if (!walletSigner) {
-        alert("Please connect your wallet first!");
+        alert("Please connect your Web3 wallet in the navigation bar first!");
         return;
       }
       
