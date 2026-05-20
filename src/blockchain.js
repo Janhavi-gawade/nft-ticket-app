@@ -1,28 +1,8 @@
-import { ethers } from "ethers";
+// Blockchain utilities (mostly handled by @tychilabs/react-ugf now)
+// You can add your actual Base Sepolia smart contract ABIs here in the future.
 
-export const CONTRACT_ADDRESS =
-  "0x1234abcd...";
+export const TICKET_CONTRACT_ADDRESS = "0xYourFutureContractAddress";
 
 export const ABI = [
-  "function mint() public"
+  "function mint(address to, uint256 eventId) public"
 ];
-
-export const getContract = async () => {
-
-  if (!window.ethereum) {
-    alert("Install MetaMask");
-    return null;
-  }
-
-  const provider =
-    new ethers.BrowserProvider(window.ethereum);
-
-  const signer =
-    await provider.getSigner();
-
-  return new ethers.Contract(
-    CONTRACT_ADDRESS,
-    ABI,
-    signer
-  );
-};

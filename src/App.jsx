@@ -5,6 +5,7 @@ import Events from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import MyTickets from "./pages/MyTickets";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 
 import Navbar from "./components/Navbar";
 
@@ -25,6 +26,8 @@ function App() {
         <Route path="/tickets" element={<MyTickets />} />
 
         <Route path="/admin" element={<Admin />} />
+
+        <Route path="/login" element={<Login />} />
 
       </Routes>
 
