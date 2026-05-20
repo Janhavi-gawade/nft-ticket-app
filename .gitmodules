@@ -1,0 +1,3 @@
+[submodule "nft-ticket-app"]
+	path = nft-ticket-app
+	url = https://github.com/Janhavi-gawade/nft-ticket-app
